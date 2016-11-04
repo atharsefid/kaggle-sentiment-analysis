@@ -4,7 +4,6 @@ Find the best estimator
 """
 
 import argparse
-import csv
 import math
 import time
 
@@ -13,26 +12,19 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
 
-
-def load_training_data(trainfile):
-    X = []
-    y = []
-    with open(trainfile) as f:
-        reader = csv.DictReader(f, delimiter='\t')
-        for row in reader:
-            X.append(row['Phrase'])
-            y.append(row['Sentiment'])
-    return X, y
+import sentiment_analysis.data as data
 
 
 def main(args):
     t1 = time.clock()
-    X, y = load_training_data(args.train)
+    X, y = data.load_training_data(args.train)
     #print(X)
     #print(y)
+    print('setup pipeline...')
     steps = [('cv', CountVectorizer()), ('svc', SVC())]
     pipeline = Pipeline(steps)
 
+    print('grid search...')
     param_grid = {
         'svc__C': [math.pow(10, power) for power in range(-4, 5)]
     }
