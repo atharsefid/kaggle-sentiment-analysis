@@ -35,7 +35,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--train', default='train.tsv', help='Training data in TSV format')
     parser.add_argument('-v', '--verbose', type=int, default=2, help='Verbosity')
-    parser.add_argument('-s', '--steps', required=True, nargs='*', help='Steps in the pipeline, e.g. cv svc')
+    parser.add_argument('-s', '--steps', required=True, nargs='*', help="Steps in the pipeline, e.g. cv svc. Valid steps are: %s" % ', '.join(transforms.supported_transforms()))
 
     args = parser.parse_args()
     main(args)

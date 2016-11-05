@@ -8,7 +8,7 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 
 
-supported_transforms = {
+transform_map = {
     'cv': CountVectorizer,
     'dtc': DecisionTreeClassifier,
     'rfc': RandomForestClassifier,
@@ -55,8 +55,12 @@ param_grids = {
 }
 
 
+def supported_transforms():
+    return list(transform_map.keys())
+
+
 def get_transform_and_param_grid(name):
-    transform = supported_transforms[name]
+    transform = transform_map[name]
     if name in param_grids:
         param_grid = param_grids[name]
     else:
