@@ -13,5 +13,5 @@ The Rotten Tomatoes movie review dataset is a corpus of movie reviews used for s
 Find the best parameters for a given steps of transforms and estimator
 
 ```sh
-$ ./tune-params.py --train train.tsv --steps ep cv dtc
+$ ./predict.py --train train1000.tsv --steps ep cv dtc --test test10.tsv -o out.csv
 ```
