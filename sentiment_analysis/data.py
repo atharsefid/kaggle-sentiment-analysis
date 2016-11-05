@@ -1,13 +1,19 @@
 import csv
 
+from collections import namedtuple
 
-def load_training_data(trainfile):
+
+DataPoint = namedtuple('DataPoint', ['PhraseId', 'SentenceId', 'Phrase', 'Sentiment'])
+
+
+def load_data_points(trainfile):
     print('loading', trainfile, '...')
-    X = []
-    y = []
+    data = []
     with open(trainfile) as f:
         reader = csv.DictReader(f, delimiter='\t')
         for row in reader:
-            X.append(row['Phrase'])
-            y.append(row['Sentiment'])
-    return X, y
+            if 'Sentiment' not in row:
+                row['Sentiment'] = None
+            dp = DataPoint(**row)
+            data.append(dp)
+    return data

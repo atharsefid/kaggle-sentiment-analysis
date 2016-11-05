@@ -1,5 +1,6 @@
 import math
 
+from sklearn.base import BaseEstimator
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -8,7 +9,20 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 
 
+class StatelessTransform(BaseEstimator):
+
+    def fit(self, X, y):
+        return self
+
+
+class ExtractPhrase(StatelessTransform):
+
+    def transform(self, X):
+        return [x.Phrase for x in X]
+
+
 transform_map = {
+    'ep': ExtractPhrase,
     'cv': CountVectorizer,
     'dtc': DecisionTreeClassifier,
     'rfc': RandomForestClassifier,

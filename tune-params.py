@@ -14,9 +14,10 @@ from sentiment_analysis import transforms
 
 
 def main(args):
-    X, y = data.load_training_data(args.train)
+    X = data.load_data_points(args.train)
+    y = [x.Sentiment for x in X]
 
-    print('setup pipeline...')
+    print("setup pipeline: %s..." % args.steps)
     steps = []
     param_grid = []
     for step in args.steps:
@@ -33,15 +34,16 @@ def main(args):
 
     # save the model for later prediction
     filename = '-'.join(args.steps) + '.pickle'
+    print("save model into %s..." % filename)
     with open(filename, 'wb') as f:
         pickle.dump(gs, f)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--train', default='train.tsv', help='Training data in TSV format')
+    parser.add_argument('-t', '--train', default='train.tsv', help='Training data in TSV format')
     parser.add_argument('-v', '--verbose', type=int, default=2, help='Verbosity')
-    parser.add_argument('-s', '--steps', required=True, nargs='*', help="Steps in the pipeline, e.g. cv svc. Valid steps are: %s" % ', '.join(transforms.supported_transforms()))
+    parser.add_argument('-s', '--steps', required=True, nargs='*', help="Steps in the pipeline, e.g. ep cv dtc. Valid steps are: %s" % ', '.join(transforms.supported_transforms()))
 
     args = parser.parse_args()
     main(args)
