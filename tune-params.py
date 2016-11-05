@@ -4,6 +4,7 @@ Find the best estimator
 """
 
 import argparse
+import pickle
 
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
@@ -29,6 +30,11 @@ def main(args):
     gs = GridSearchCV(estimator=pipeline, param_grid=param_grid, cv=5, verbose=args.verbose).fit(X, y)
     print('best params =', gs.best_params_)
     print('best score =', gs.best_score_)
+
+    # save the model for later prediction
+    filename = '-'.join(args.steps) + '.pickle'
+    with open(filename, 'wb') as f:
+        pickle.dump(gs, f)
 
 
 if __name__ == '__main__':
