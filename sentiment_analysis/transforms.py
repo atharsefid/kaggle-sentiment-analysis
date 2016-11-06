@@ -1,7 +1,8 @@
 import math
 
 from sklearn.base import BaseEstimator
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction import FeatureHasher
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
@@ -23,7 +24,9 @@ class ExtractPhrase(StatelessTransform):
 
 transform_map = {
     'ep': ExtractPhrase,
+    'fh': FeatureHasher,
     'cv': CountVectorizer,
+    'tfidf': TfidfVectorizer,
     'dtc': DecisionTreeClassifier,
     'rfc': RandomForestClassifier,
     'svc': SVC,
@@ -32,6 +35,11 @@ transform_map = {
 }
 
 param_grids = {
+    'fh': [
+        {
+            'fh__input_type': ['string']
+        },
+    ],
     'dtc': [
         {
             'dtc__criterion': ['gini', 'entropy'],
