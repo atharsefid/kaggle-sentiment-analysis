@@ -23,7 +23,16 @@ def main(args):
     for step in args.steps:
         transform, pg = transforms.get_transform_and_param_grid(step)
         steps.append((step, transform()))
-        param_grid.extend(pg)
+
+        new_param_grid = []
+        if not param_grid:
+            new_param_grid = pg
+        else:
+            for outer_dict in param_grid:
+                for inner_dict in pg:
+                    merged_dict = {**outer_dict, **inner_dict}
+                    new_param_grid.append(merged_dict)
+        param_grid = new_param_grid
 
     pipeline = Pipeline(steps)
 
