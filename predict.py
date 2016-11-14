@@ -2,11 +2,12 @@
 """
 Find the best parameters for estimator pipeline and classify the sentiment of phrases
 """
+#import sklearn.model_selection
 
 import argparse
 import csv
+from sklearn.grid_search import GridSearchCV
 
-from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
 
 from sentiment_analysis import data
@@ -30,7 +31,7 @@ def main(args):
         else:
             for outer_dict in param_grid:
                 for inner_dict in pg:
-                    merged_dict = {**outer_dict, **inner_dict}
+                    merged_dict = []#{**outer_dict, **inner_dict}
                     new_param_grid.append(merged_dict)
         param_grid = new_param_grid
 
